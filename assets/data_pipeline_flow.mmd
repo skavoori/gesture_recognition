@@ -1,0 +1,9 @@
+graph TD
+    A[Raw Dataset<br>22.8 GB / 148k Video Folders] -->|File I/O| B(Processing Engine<br>M5 Max / Python 3.9)
+    B -->|Computer Vision| C{MediaPipe Tracking<br>21 3D Landmarks}
+    C -->|Dimensionality Reduction| D[Structured Output<br>3.24 GB CSV]
+    D -->|Normalization| E(Temporal Modeling<br>30-Frame Sequences)
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#bbf,stroke:#333,stroke-width:2px
+    style E fill:#bfb,stroke:#333,stroke-width:2px

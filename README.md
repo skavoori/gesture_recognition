@@ -33,10 +33,10 @@ The dimensionality reduction strategy was highly successful, isolating the core 
 
 #### Outline of project
 
-- [Exploratory Data Analysis (EDA)](EDA_Gesture_Recognition.ipynb)
+- [Exploratory Data Analysis (EDA)](gesture_recognition_eda.ipynb)
 - [Script used for data processing](scripts/extract_landmarks.py)
 - [Annotations](annotations)
-- [Hand Gesture Co-ordinates Data](data/jester_hand_coordinates.csv)
+- [Hand Gesture Co-ordinates Data. Note: This link works only running the Jupyter Notebook](data/jester_hand_coordinates.csv)
 - [Assets Used in Jupyter Notebook](assets)
 - [README](README.md)
 
