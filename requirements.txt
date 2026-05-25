@@ -1,4 +1,6 @@
 gdown
+ipykernel
+jupyter
 matplotlib
 mediapipe
 numpy

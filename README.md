@@ -31,9 +31,22 @@ The dimensionality reduction strategy was highly successful, isolating the core 
 * **Hardware Accelerated Training:** Utilize Apple Silicon Metal Performance Shaders (`mps`) on the M5 Max to train the model efficiently on the 3.24 GB coordinate dataset to push beyond the 90% accuracy threshold.
 * **Real-Time Deployment:** Develop a live OpenCV webcam pipeline to feed real-time $(x, y, z)$ coordinates into the trained model for live, on-device gesture classification to simulate the edge computing media interface.
 
+#### Development environment
+
+Do not commit a virtual environment to git (it is platform-specific and large). Instead, from the project root, run:
+
+```bash
+python3 scripts/setup_env.py
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+jupyter notebook gesture_recognition_eda.ipynb
+```
+
+`scripts/setup_env.py` creates `.venv/`, installs packages from `requirements.txt` (including Jupyter), and works on macOS, Linux, and Windows. Python 3.10 or newer is required.
+
 #### Outline of project
 
 - [Exploratory Data Analysis (EDA)](gesture_recognition_eda.ipynb)
+- [Environment setup](scripts/setup_env.py)
 - [Script used for data processing](scripts/extract_landmarks.py)
 - [Annotations](annotations)
 - [Hand Gesture Co-ordinates Data. Note: This link works only running the Jupyter Notebook](data/jester_hand_coordinates.csv)
@@ -54,8 +67,6 @@ The data pipeline and modeling architecture for this project were heavily inform
 
 3. **E. Uboweja et al., "On-device Real-time Custom Hand Gesture Recognition,"** *Google LLC, Mountain View, CA.*
    * **Relevance:** Authored by researchers behind Google's MediaPipe, this paper directly supports the project's core architecture of utilizing lightweight, on-device spatial tracking. It mathematically validates the capability of running real-time gesture recognition on edge hardware without relying on cloud-based computation, perfectly aligning with the smart-home latency requirements.
-
-the
 
 ##### Contact and Further Information
 [Linked In](https://www.linkedin.com/in/srikanthkavoori)
