@@ -1,0 +1,9 @@
+gdown
+matplotlib
+mediapipe
+numpy
+opencv-python
+pandas
+scikit-learn
+seaborn
+tqdm
