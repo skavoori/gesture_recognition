@@ -8,3 +8,6 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 
+# Ignore all intermediate model weights
+models/*.pth
+

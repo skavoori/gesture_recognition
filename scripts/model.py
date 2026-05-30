@@ -43,6 +43,42 @@ class GestureLSTM(nn.Module):
         
         return out
 
+class GestureGRU(nn.Module):
+    """
+    A Gated Recurrent Unit (GRU) alternative to the LSTM.
+    Often trains faster and performs similarly on sequence data.
+    """
+    def __init__(self, input_size=63, hidden_size=128, num_layers=2, num_classes=27, dropout=0.5):
+        super(GestureGRU, self).__init__()
+        
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        
+        # GRU network (Notice it doesn't need a cell state 'c0' like LSTM)
+        self.gru = nn.GRU(
+            input_size=input_size, 
+            hidden_size=hidden_size, 
+            num_layers=num_layers, 
+            batch_first=True,
+            dropout=dropout if num_layers > 1 else 0
+        )
+        self.dropout = nn.Dropout(dropout)
+        self.fc = nn.Linear(hidden_size, num_classes)
+        
+    def forward(self, x):
+        # Initialize hidden state
+        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(x.device)
+        
+        # Forward propagate GRU
+        out, _ = self.gru(x, h0)
+        
+        # Grab the final time step
+        out = out[:, -1, :]
+        
+        out = self.dropout(out)
+        out = self.fc(out)
+        return out
+
 if __name__ == "__main__":
     # --- Apple Silicon Hardware Verification ---
     # This automatically detects your M5 Max's Metal GPU for accelerated training
@@ -60,3 +96,5 @@ if __name__ == "__main__":
     
     print(f"Input Shape: {dummy_input.shape}  -> (Batch, Sequence, Features)")
     print(f"Output Shape: {dummy_output.shape} -> (Batch, Classes)")
+
+

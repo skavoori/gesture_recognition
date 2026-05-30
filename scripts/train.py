@@ -5,14 +5,20 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 
 from data_loader import JesterCoordinateDataset
-from model import GestureLSTM
-from paths import ROOT, resolve_path
+from model import GestureLSTM, GestureGRU  # Ensure GRU is imported
+from paths import ROOT
 
-def train_and_validate(epochs, learning_rate, batch_size, hidden_size):
+def train_and_validate(epochs, learning_rate, batch_size, hidden_size, model_type):
     device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-    print(f"Booting up unified training/validation engine on: {device}")
+    print(f"Booting up {model_type} training engine on: {device}")
 
-    # 1. Load BOTH Datasets
+    # 1. Directory Routing Setup
+    models_dir = ROOT / "models"
+    metrics_dir = ROOT / "metrics"
+    models_dir.mkdir(exist_ok=True)
+    metrics_dir.mkdir(exist_ok=True)
+
+    # 2. Load Datasets
     train_dataset = JesterCoordinateDataset(
         coordinates_csv="data/jester_hand_coordinates.csv",
         labels_csv="annotations/jester-v1-train.csv",
@@ -29,18 +35,22 @@ def train_and_validate(epochs, learning_rate, batch_size, hidden_size):
     )
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
-    # 2. Initialize Model
-    model = GestureLSTM(input_size=63, hidden_size=hidden_size, num_layers=2, num_classes=27).to(device)
+    # 3. Initialize the Requested Model
+    if model_type.upper() == 'GRU':
+        model = GestureGRU(input_size=63, hidden_size=hidden_size, num_layers=2, num_classes=27).to(device)
+    else:
+        model = GestureLSTM(input_size=63, hidden_size=hidden_size, num_layers=2, num_classes=27).to(device)
+
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-    # 3. History Tracking for Jupyter Notebook Graphs
-    history = {
-        'train_loss': [], 'val_loss': [],
-        'train_acc': [], 'val_acc': []
-    }
+    # 4. History Tracking & Early Stopping
+    history = {'train_loss': [], 'val_loss': [], 'train_acc': [], 'val_acc': []}
+    best_val_loss = float('inf')
+    patience = 5
+    epochs_without_improvement = 0
 
-    print(f"--- Starting Run: {epochs} Epochs | LR: {learning_rate} | Batch: {batch_size} ---")
+    print(f"\n--- {model_type} | {epochs} Epochs | LR: {learning_rate} | Batch: {batch_size} | Hidden: {hidden_size} ---")
 
     for epoch in range(epochs):
         # --- TRAINING PHASE ---
@@ -89,22 +99,35 @@ def train_and_validate(epochs, learning_rate, batch_size, hidden_size):
 
         print(f"Epoch [{epoch+1}/{epochs}] | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f} | Train Acc: {train_accuracy:.2f}% | Val Acc: {val_accuracy:.2f}%")
 
-    # 4. Save the model and the history (project root so notebooks can load them)
-    model_path = ROOT / f"gesture_lstm_h{hidden_size}_lr{learning_rate}.pth"
-    history_path = ROOT / f"history_h{hidden_size}_lr{learning_rate}.json"
-    torch.save(model.state_dict(), model_path)
+        # --- EARLY STOPPING & SAVING ---
+        if avg_val_loss < best_val_loss:
+            best_val_loss = avg_val_loss
+            epochs_without_improvement = 0
+            model_path = models_dir / f"best_{model_type.lower()}_h{hidden_size}_lr{learning_rate}.pth"
+            torch.save(model.state_dict(), model_path)
+            print("  -> Validation loss improved. Saved best model.")
+        else:
+            epochs_without_improvement += 1
+            print(f"  -> No improvement. Early stopping counter: {epochs_without_improvement}/{patience}")
+            if epochs_without_improvement >= patience:
+                print(f"\n[!] Early stopping triggered at epoch {epoch+1}.")
+                break 
+
+    # 5. Save History
+    history_path = metrics_dir / f"history_{model_type.lower()}_h{hidden_size}_lr{learning_rate}.json"
     with open(history_path, "w") as f:
         json.dump(history, f)
         
-    print("Run complete. Weights and history saved.")
+    print(f"Run complete. Check /models and /metrics directories.")
     return history
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--epochs', type=int, default=30)
     parser.add_argument('--lr', type=float, default=0.001)
     parser.add_argument('--batch_size', type=int, default=32)
     parser.add_argument('--hidden_size', type=int, default=128)
+    parser.add_argument('--model_type', type=str, default='LSTM', choices=['LSTM', 'GRU'])
     args = parser.parse_args()
     
-    train_and_validate(args.epochs, args.lr, args.batch_size, args.hidden_size)
+    train_and_validate(args.epochs, args.lr, args.batch_size, args.hidden_size, args.model_type)
