@@ -1,0 +1,21 @@
+# Deep Learning & Neural Network Frameworks
+torch
+
+# Data Manipulation & Analysis
+pandas
+numpy
+
+# Training Utilities
+tqdm
+
+# Hyperparameter Tuning & Experimentation
+optuna
+
+# Jupyter & Graphing (For your EDA and Tuning Notebooks)
+jupyter
+ipykernel
+matplotlib
+seaborn
+
+#Utilities
+gdown

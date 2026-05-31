@@ -68,5 +68,9 @@ The data pipeline and modeling architecture for this project were heavily inform
 3. **E. Uboweja et al., "On-device Real-time Custom Hand Gesture Recognition,"** *Google LLC, Mountain View, CA.*
    * **Relevance:** Authored by researchers behind Google's MediaPipe, this paper directly supports the project's core architecture of utilizing lightweight, on-device spatial tracking. It mathematically validates the capability of running real-time gesture recognition on edge hardware without relying on cloud-based computation, perfectly aligning with the smart-home latency requirements.
 
+4. **M. Oudah, A. Al-Naji, and J. Chahl, "Hand Gesture Recognition Based on Computer Vision: A Review of Techniques,"** J Imaging, 2020.
+
+  * **Relevance:** This comprehensive review establishes that camera vision-based sensors are highly applicable as they provide contactless communication between humans and computers. Furthermore, it mathematically validates your choice of using MediaPipe by confirming that skeleton-based recognition specifies model parameters which can improve the detection of complex features. The paper highlights that skeleton data describes geometric attributes and easily translates features and correlations of data, allowing systems to focus on geometric and statistic features like the skeletal joint location and the space between joints.
+
 ##### Contact and Further Information
 [Linked In](https://www.linkedin.com/in/srikanthkavoori)

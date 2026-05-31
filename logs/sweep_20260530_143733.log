@@ -4,3 +4,89 @@ Total Experiments: 24
 ================================================================================
 Experiment 1/24 | Model: LSTM | LR: 0.001 | Hidden: 128 | Batch: 32
 ================================================================================
+Booting up LSTM training engine on: mps
+Loading massive coordinate CSV into Apple Silicon Unified Memory...
+Grouping frames by video sequence...
+Loading ground truth annotations...
+Loading massive coordinate CSV into Apple Silicon Unified Memory...
+Grouping frames by video sequence...
+Loading ground truth annotations...
+
+--- LSTM | 50 Epochs | LR: 0.001 | Batch: 32 | Hidden: 128 ---
+Epoch [1/50] | Train Loss: 1.6712 | Val Loss: 0.9912 | Train Acc: 50.08% | Val Acc: 70.28%
+  -> Validation loss improved. Saved best model.
+Epoch [2/50] | Train Loss: 0.9045 | Val Loss: 0.8193 | Train Acc: 73.31% | Val Acc: 75.71%
+  -> Validation loss improved. Saved best model.
+Epoch [3/50] | Train Loss: 0.7564 | Val Loss: 0.7518 | Train Acc: 77.57% | Val Acc: 78.30%
+  -> Validation loss improved. Saved best model.
+Epoch [4/50] | Train Loss: 0.6815 | Val Loss: 0.7125 | Train Acc: 80.16% | Val Acc: 79.49%
+  -> Validation loss improved. Saved best model.
+Epoch [5/50] | Train Loss: 0.6298 | Val Loss: 0.6451 | Train Acc: 81.79% | Val Acc: 81.65%
+  -> Validation loss improved. Saved best model.
+Epoch [6/50] | Train Loss: 0.6012 | Val Loss: 0.6095 | Train Acc: 82.54% | Val Acc: 82.29%
+  -> Validation loss improved. Saved best model.
+Epoch [7/50] | Train Loss: 0.5714 | Val Loss: 0.6181 | Train Acc: 83.39% | Val Acc: 82.02%
+  -> No improvement. Early stopping counter: 1/5
+Epoch [8/50] | Train Loss: 0.5584 | Val Loss: 0.6854 | Train Acc: 83.77% | Val Acc: 80.74%
+  -> No improvement. Early stopping counter: 2/5
+Epoch [9/50] | Train Loss: 0.5396 | Val Loss: 0.5713 | Train Acc: 84.34% | Val Acc: 83.43%
+  -> Validation loss improved. Saved best model.
+Epoch [10/50] | Train Loss: 0.5268 | Val Loss: 0.5609 | Train Acc: 84.68% | Val Acc: 83.66%
+  -> Validation loss improved. Saved best model.
+Epoch [11/50] | Train Loss: 0.5147 | Val Loss: 0.5952 | Train Acc: 84.96% | Val Acc: 82.74%
+  -> No improvement. Early stopping counter: 1/5
+Epoch [12/50] | Train Loss: 0.5065 | Val Loss: 0.5563 | Train Acc: 85.22% | Val Acc: 83.69%
+  -> Validation loss improved. Saved best model.
+Epoch [13/50] | Train Loss: 0.5002 | Val Loss: 0.5489 | Train Acc: 85.30% | Val Acc: 84.11%
+  -> Validation loss improved. Saved best model.
+Epoch [14/50] | Train Loss: 0.4905 | Val Loss: 0.5807 | Train Acc: 85.69% | Val Acc: 83.04%
+  -> No improvement. Early stopping counter: 1/5
+Epoch [15/50] | Train Loss: 0.4850 | Val Loss: 0.5459 | Train Acc: 85.81% | Val Acc: 84.53%
+  -> Validation loss improved. Saved best model.
+Epoch [16/50] | Train Loss: 0.4777 | Val Loss: 0.5569 | Train Acc: 85.98% | Val Acc: 83.80%
+  -> No improvement. Early stopping counter: 1/5
+Epoch [17/50] | Train Loss: 0.4726 | Val Loss: 0.5622 | Train Acc: 86.19% | Val Acc: 83.76%
+  -> No improvement. Early stopping counter: 2/5
+Traceback (most recent call last):
+  File "/Volumes/Code/gesture_recognition/scripts/train.py", line 133, in <module>
+    train_and_validate(args.epochs, args.lr, args.batch_size, args.hidden_size, args.model_type)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Code/gesture_recognition/scripts/train.py", line 60, in train_and_validate
+    for inputs, labels in train_loader:
+                          ^^^^^^^^^^^^
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py", line 718, in __next__
+    data = self._next_data()
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py", line 778, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/Volumes/Code/gesture_recognition/scripts/data_loader.py", line 47, in __getitem__
+    video_frames = self.grouped_data.get_group(int(vid_id))[self.feature_cols].values
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/pandas/core/groupby/groupby.py", line 890, in get_group
+    return self._selected_obj.iloc[inds]
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/pandas/core/indexing.py", line 1207, in __getitem__
+    return self._getitem_axis(maybe_callable, axis=axis)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/pandas/core/indexing.py", line 1764, in _getitem_axis
+    return self._get_list_axis(key, axis=axis)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/pandas/core/indexing.py", line 1735, in _get_list_axis
+    return self.obj.take(key, axis=axis)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/pandas/core/generic.py", line 4101, in take
+    new_data = self._mgr.take(
+        indices,
+        axis=self._get_block_manager_axis(axis),
+        verify=True,
+    )
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/pandas/core/internals/managers.py", line 1074, in take
+    indexer = maybe_convert_indices(indexer, n, verify=verify)
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/pandas/core/indexers/utils.py", line 283, in maybe_convert_indices
+    if mask.any():
+       ~~~~~~~~^^
+  File "/Volumes/Code/gesture_recognition/.venv/lib/python3.14/site-packages/numpy/_core/_methods.py", line 61, in _any
+    return umr_any(a, axis, dtype, out, keepdims)
+KeyboardInterrupt

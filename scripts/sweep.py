@@ -2,6 +2,7 @@ import itertools
 import subprocess
 import time
 import sys
+import os
 from datetime import datetime
 
 # Import your fixed absolute root path
@@ -53,7 +54,7 @@ def run_sweep():
             
             # 4. Run train.py, but pipe ALL output (stdout and stderr) into the log file!
             subprocess.run([
-                sys.executable, train_script_path, 
+                sys.executable, "-u", train_script_path, 
                 "--epochs", str(max_epochs), 
                 "--lr", str(lr), 
                 "--batch_size", str(batch), 
@@ -69,5 +70,39 @@ def run_sweep():
             log_file.write(f"\n{finish_msg}\n")
             log_file.flush()
 
+def run_diagnostic_sweep():
+    # Only test ONE combination for debugging
+    learning_rates = [0.001]
+    hidden_sizes = [128]
+    batch_sizes = [32]
+    model_types = ['LSTM']
+    max_epochs = 2 
+    
+    experiments = list(itertools.product(learning_rates, hidden_sizes, batch_sizes, model_types))
+    
+    # Ensure the subprocess knows where to find your custom python files
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(ROOT / "scripts")
+    
+    train_script_path = str(ROOT / "scripts" / "train.py")
+    print(f"[DEBUG] Attempting to run script at: {train_script_path}")
+    
+    for idx, (lr, hidden, batch, m_type) in enumerate(experiments):
+        print(f"\n--- Launching Diagnostic Run ---")
+        
+        # Notice: We removed the log_file redirection. 
+        # Errors will print directly to your terminal.
+        result = subprocess.run([
+            sys.executable, "-u", train_script_path,
+            "--epochs", str(max_epochs), 
+            "--lr", str(lr), 
+            "--batch_size", str(batch), 
+            "--hidden_size", str(hidden),
+            "--model_type", str(m_type)
+        ], cwd=str(ROOT), env=env) 
+        
+        print(f"\n[DEBUG] Subprocess exited with return code: {result.returncode}")
+
 if __name__ == "__main__":
     run_sweep()
+    # run_diagnostic_sweep()

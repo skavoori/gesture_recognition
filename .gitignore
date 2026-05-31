@@ -4,10 +4,14 @@ data/*.csv
 # Python virtual environment and caches
 .venv/
 venv/
+.venv_inference/
+.venv_training/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 
 # Ignore all intermediate model weights
 models/*.pth
+
+**/.DS_Store
 

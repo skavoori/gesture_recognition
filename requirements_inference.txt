@@ -1,0 +1,9 @@
+# Computer Vision & Image Processing
+opencv-python
+mediapipe==0.10.35  # Pinned to ensure stability on Apple Silicon
+
+# Minimal Numerical Computing
+numpy
+
+# Deep Learning & Neural Network Frameworks
+torch
