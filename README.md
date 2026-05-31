@@ -48,7 +48,7 @@ An example, commands to invoke the jupiter notebook for EDA is as shown below.
 
 ```bash
 python3 scripts/setup_env.py
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
+source .venv_training/bin/activate   # Windows: .venv_training\Scripts\activate
 jupyter notebook 1_gesture_recognition_eda.ipynb
 ```
 
