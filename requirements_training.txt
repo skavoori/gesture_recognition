@@ -1,12 +1,16 @@
-# Deep Learning & Neural Network Frameworks
+# Deep Learning & Neural Network Frameworks (requires Python >= 3.10)
 torch
 
 # Data Manipulation & Analysis
 pandas
 numpy
 
-# Training Utilities
+# Training & extraction utilities (train.py, sweep.py, extract_landmarks.py)
 tqdm
+
+# Landmark extraction pipeline (extract_landmarks.py; same MediaPipe Tasks API as inference)
+opencv-python
+mediapipe==0.10.35
 
 # Hyperparameter Tuning & Experimentation
 optuna

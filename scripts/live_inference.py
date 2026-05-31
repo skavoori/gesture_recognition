@@ -1,6 +1,5 @@
 import argparse
 import sys
-import urllib.request
 from collections import deque
 
 import cv2
@@ -8,51 +7,11 @@ import numpy as np
 import pandas as pd
 import torch
 import torch.nn.functional as F
-from mediapipe.tasks.python.core import base_options as base_options_module
-from mediapipe.tasks.python.vision import (
-    HandLandmarker,
-    HandLandmarkerOptions,
-    HandLandmarksConnections,
-    drawing_styles,
-    drawing_utils,
-)
-from mediapipe.tasks.python.vision.core import image as mp_image_module
-from mediapipe.tasks.python.vision.core import (
-    vision_task_running_mode as running_mode_module,
-)
+from mediapipe.tasks.python.vision import HandLandmarksConnections, drawing_styles, drawing_utils
 
+from hand_landmarker_utils import create_hand_landmarker, detect_hands_on_rgb
 from paths import ROOT
 from model import GestureLSTM, GestureGRU
-
-_HAND_LANDMARKER_URL = (
-    "https://storage.googleapis.com/mediapipe-models/hand_landmarker/"
-    "hand_landmarker/float16/1/hand_landmarker.task"
-)
-_HAND_LANDMARKER_PATH = ROOT / "models" / "hand_landmarker.task"
-
-
-def _ensure_hand_landmarker_model() -> str:
-    if _HAND_LANDMARKER_PATH.is_file():
-        return str(_HAND_LANDMARKER_PATH)
-
-    _HAND_LANDMARKER_PATH.parent.mkdir(parents=True, exist_ok=True)
-    print(f"[INFO] Downloading hand landmarker model to {_HAND_LANDMARKER_PATH}")
-    urllib.request.urlretrieve(_HAND_LANDMARKER_URL, _HAND_LANDMARKER_PATH)
-    return str(_HAND_LANDMARKER_PATH)
-
-
-def _create_hand_landmarker() -> HandLandmarker:
-    options = HandLandmarkerOptions(
-        base_options=base_options_module.BaseOptions(
-            model_asset_path=_ensure_hand_landmarker_model()
-        ),
-        running_mode=running_mode_module.VisionTaskRunningMode.VIDEO,
-        num_hands=1,
-        min_hand_detection_confidence=0.7,
-        min_hand_presence_confidence=0.7,
-        min_tracking_confidence=0.7,
-    )
-    return HandLandmarker.create_from_options(options)
 
 def run_live_inference(model_path, model_type, hidden_size):
     device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
@@ -84,7 +43,12 @@ def run_live_inference(model_path, model_type, hidden_size):
         sys.exit(1)
 
     # 3. Initialize MediaPipe Hand Landmarker (Tasks API; legacy mp.solutions removed in 0.10+)
-    hand_landmarker = _create_hand_landmarker()
+    hand_landmarker = create_hand_landmarker(
+        num_hands=1,
+        min_hand_detection_confidence=0.7,
+        min_hand_presence_confidence=0.7,
+        min_tracking_confidence=0.7,
+    )
     hand_connections = HandLandmarksConnections.HAND_CONNECTIONS
     hand_landmark_style = drawing_styles.get_default_hand_landmarks_style()
     hand_connection_style = drawing_styles.get_default_hand_connections_style()
@@ -113,11 +77,9 @@ def run_live_inference(model_path, model_type, hidden_size):
             frame = cv2.flip(frame, 1)
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            mp_image = mp_image_module.Image(
-                image_format=mp_image_module.ImageFormat.SRGB,
-                data=np.ascontiguousarray(frame_rgb),
+            results = detect_hands_on_rgb(
+                frame_rgb, hand_landmarker, timestamp_ms=frame_timestamp_ms
             )
-            results = hand_landmarker.detect_for_video(mp_image, frame_timestamp_ms)
             frame_timestamp_ms += int(1000 / 30)
 
             if results.hand_landmarks:

@@ -1,7 +1,5 @@
-### Project Title
-#### Dynamic Hand Gesture Recognition: Low-Latency Spatiotemporal Classification for Edge Devices
+### Dynamic Hand Gesture Recognition: Low-Latency Spatiotemporal Classification for Edge Devices
 
-**Author**
 Srikanth Kavoori
 
 #### Executive summary
@@ -33,24 +31,41 @@ The dimensionality reduction strategy was highly successful, isolating the core 
 
 #### Development environment
 
-Do not commit a virtual environment to git (it is platform-specific and large). Instead, from the project root, run:
+To ensure the robustness and reproducibility of the gesture recognition pipeline, I implemented a dual-environment strategy. This decoupling provides two critical benefits:
+
+Dependency Isolation: The Training Environment (.venv_training) is optimized for heavy computational tasks, housing deep learning libraries (PyTorch, Pandas, NumPy) and the hyperparameter tuning suite. The Inference Environment (.venv_inference) is optimized for low-latency, real-time edge performance. By isolating the inference environment, we ensure that the dependencies required for real-time webcam processing (OpenCV, MediaPipe) are stripped of unnecessary training overhead, resulting in a significantly reduced disk footprint and startup time.
+
+Versioning Consistency: The Training Environment is configured for Python 3.9.6 to maintain consistency with the data preprocessing stage where landmarks were generated. The inference environment is specifically built to match the production runtime requirements, preventing 'dependency hell' where training library updates might inadvertently break real-time inference scripts. This modular architecture allows us to deploy the inference script as a standalone, lightweight artifact on edge hardware without needing the full PyTorch training stack.
+
+To achiieve this a [setup_env.py](scripts/setup_env.py) script was writen. This script does the following. 
+
+1. Picks a compatible Python 
+2. Creates and filles each Virtual Environment. 
+3. Smoke Tests each Virtual environments. 
+4. Prints information on how to use the environments. 
+
+An example, commands to invoke the jupiter notebook for EDA is as shown below. 
 
 ```bash
 python3 scripts/setup_env.py
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
-jupyter notebook gesture_recognition_eda.ipynb
+jupyter notebook 1_gesture_recognition_eda.ipynb
 ```
 
 `scripts/setup_env.py` creates `.venv/`, installs packages from `requirements.txt` (including Jupyter), and works on macOS, Linux, and Windows. Python 3.10 or newer is required.
 
 #### Outline of project
 
-- [Exploratory Data Analysis (EDA)](gesture_recognition_eda.ipynb)
-- [Environment setup](scripts/setup_env.py)
-- [Script used for data processing](scripts/extract_landmarks.py)
-- [Annotations](annotations)
-- [Hand Gesture Co-ordinates Data. Note: This link works only running the Jupyter Notebook](data/jester_hand_coordinates.csv)
+- [Exploratory Data Analysis (EDA)](1_gesture_recognition_eda.ipynb)
+- [Model Evaluation and Fine Tuning](2_model_tuning.ipynb)
+- [Project Report](3_capstone_project_report.ipynb)
+- [Python Scripts Used for Data Extraction , Model Trainng, Model Evaluation and Live Inference](scripts)
+- [Intermediate Models Generated](models)
+- [Metrics Collected from Training Models](metrics)
+- [Logs Generated during Model Evaluation](logs)
+- [Annotations used during Training](annotations)
 - [Assets Used in Jupyter Notebook](assets)
+- [Hand Gesture Co-ordinates Data. Note: This link works only after running the Jupyter Notebook](data/jester_hand_coordinates.csv)
 - [README](README.md)
 
 

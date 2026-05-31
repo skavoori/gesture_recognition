@@ -1,9 +1,12 @@
+# Requires Python >= 3.10 (PyTorch 2.x). Use setup_env.py to create .venv_inference.
+
 # Computer Vision & Image Processing
 opencv-python
-mediapipe==0.10.35  # Pinned to ensure stability on Apple Silicon
+mediapipe==0.10.35  # Tasks API; mp.solutions removed in 0.10+
 
-# Minimal Numerical Computing
+# Numerical & label loading (live_inference.py)
 numpy
+pandas
 
 # Deep Learning & Neural Network Frameworks
 torch
