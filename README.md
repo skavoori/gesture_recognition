@@ -37,14 +37,14 @@ Dependency Isolation: The Training Environment (.venv_training) is optimized for
 
 Versioning Consistency: The Training Environment is configured for Python 3.9.6 to maintain consistency with the data preprocessing stage where landmarks were generated. The inference environment is specifically built to match the production runtime requirements, preventing 'dependency hell' where training library updates might inadvertently break real-time inference scripts. This modular architecture allows us to deploy the inference script as a standalone, lightweight artifact on edge hardware without needing the full PyTorch training stack.
 
-To achiieve this a [setup_env.py](scripts/setup_env.py) script was writen. This script does the following. 
+To achieve this a [setup_env.py](scripts/setup_env.py) script was writen. This script does the following. 
 
 1. Picks a compatible Python 
-2. Creates and filles each Virtual Environment. 
+2. Creates and fills each Virtual Environment. 
 3. Smoke Tests each Virtual environments. 
 4. Prints information on how to use the environments. 
 
-An example, commands to invoke the jupiter notebook for EDA is as shown below. 
+As an example, below commands help setup the environment needed for running the jupiter notebook for EDA. 
 
 ```bash
 python3 scripts/setup_env.py
