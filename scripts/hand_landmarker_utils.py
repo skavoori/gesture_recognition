@@ -1,5 +1,4 @@
-"""Shared MediaPipe Hand Landmarker setup (Tasks API; mp.solutions removed in 0.10+)."""
-
+"""Shared MediaPipe Hand Landmarker setup that uses the Tasks API"""
 from __future__ import annotations
 
 import urllib.request
@@ -15,13 +14,14 @@ from mediapipe.tasks.python.vision.core import (
 
 from paths import ROOT
 
+# This is the URL of the hand landmarker model that is used to extract the landmarks from the video frames
 HAND_LANDMARKER_URL = (
     "https://storage.googleapis.com/mediapipe-models/hand_landmarker/"
     "hand_landmarker/float16/1/hand_landmarker.task"
 )
 HAND_LANDMARKER_PATH = ROOT / "models" / "hand_landmarker.task"
 
-
+# This function is used to ensure that the hand landmarker model is downloaded and saved to the correct location
 def ensure_hand_landmarker_model() -> str:
     if HAND_LANDMARKER_PATH.is_file():
         return str(HAND_LANDMARKER_PATH)
@@ -31,7 +31,7 @@ def ensure_hand_landmarker_model() -> str:
     urllib.request.urlretrieve(HAND_LANDMARKER_URL, HAND_LANDMARKER_PATH)
     return str(HAND_LANDMARKER_PATH)
 
-
+# This function is used to create the hand landmarker object that is used to extract the landmarks from the video frames
 def create_hand_landmarker(
     *,
     running_mode: running_mode_module.VisionTaskRunningMode = (
@@ -54,7 +54,7 @@ def create_hand_landmarker(
     )
     return HandLandmarker.create_from_options(options)
 
-
+# This function is used to detect the hands on the RGB frame
 def detect_hands_on_rgb(
     frame_rgb: np.ndarray,
     landmarker: HandLandmarker,

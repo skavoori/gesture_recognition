@@ -4,6 +4,7 @@ data/*.csv
 # Python virtual environment and caches
 .venv/
 venv/
+.vscode/
 .venv_inference/
 .venv_training/
 __pycache__/

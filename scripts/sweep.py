@@ -8,21 +8,24 @@ from datetime import datetime
 # Import your fixed absolute root path
 from paths import ROOT 
 
+# This function is used to run the sweep for the gesture models
 def run_sweep():
+    # Define the learning rates, hidden sizes, batch sizes, and model types to explore
     learning_rates = [0.001, 0.0005, 0.0001]
     hidden_sizes = [128, 256]
     batch_sizes = [32, 64]
     model_types = ['LSTM', 'GRU']
     max_epochs = 50 
-    
+
+    # Create a list of all the possible combinations of the learning rates, hidden sizes, batch sizes, and model types
     experiments = list(itertools.product(learning_rates, hidden_sizes, batch_sizes, model_types))
     total_runs = len(experiments)
     
-    # 1. Create the logs directory using your absolute ROOT path
+    # Create the logs directory using the absolute ROOT path
     logs_dir = ROOT / "logs"
     logs_dir.mkdir(exist_ok=True)
     
-    # 2. Create a timestamped log file for this specific sweep session
+    # Create a timestamped log file for this specific sweep session
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_file_path = logs_dir / f"sweep_{timestamp}.log"
     
@@ -31,7 +34,7 @@ def run_sweep():
     
     train_script_path = str(ROOT / "scripts" / "train.py")
     
-    # 3. Open the log file
+    # Log the sweep details to the log file
     with open(log_file_path, "w") as log_file:
         log_file.write(f"--- SWEEP INITIATED AT {timestamp} ---\n")
         log_file.write(f"Total Experiments: {total_runs}\n\n")
@@ -70,8 +73,10 @@ def run_sweep():
             log_file.write(f"\n{finish_msg}\n")
             log_file.flush()
 
+# This function is used to run the diagnostic sweep for the gesture models.
+# This function is used to test the gesture models with a single combination of the learning rates, hidden sizes, batch sizes, and model types
 def run_diagnostic_sweep():
-    # Only test ONE combination for debugging
+    # Define the learning rates, hidden sizes, batch sizes, and model types to test
     learning_rates = [0.001]
     hidden_sizes = [128]
     batch_sizes = [32]
@@ -104,5 +109,8 @@ def run_diagnostic_sweep():
         print(f"\n[DEBUG] Subprocess exited with return code: {result.returncode}")
 
 if __name__ == "__main__":
+    # Run the sweep for the gesture models
     run_sweep()
+    # Run the diagnostic sweep for the gesture models as a test when changes are made to the training script
+    # Uncomment the following line to run the diagnostic sweep as a test when changes are made to the training script
     # run_diagnostic_sweep()

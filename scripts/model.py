@@ -80,21 +80,21 @@ class GestureGRU(nn.Module):
         return out
 
 if __name__ == "__main__":
-    # --- Apple Silicon Hardware Verification ---
-    # This automatically detects your M5 Max's Metal GPU for accelerated training
+    # Use GPU if available, otherwise fallback to use CPU
     device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
     print(f"PyTorch Compute Device: {device}")
     
     # Initialize the model and push it to the GPU
     model = GestureLSTM().to(device)
     
+    # Running a test inference to verify the model is working correctly before training or inference
+    print("Running a test inference to verify the model is working correctly before training or inference")
     # Create a dummy tensor representing 1 batch of 30 frames with 63 coordinates
     dummy_input = torch.randn(1, 30, 63).to(device)
     
-    # Run a test inference
+    # Run a test inference to verify the model is working correctly before training or inference
     dummy_output = model(dummy_input)
     
     print(f"Input Shape: {dummy_input.shape}  -> (Batch, Sequence, Features)")
     print(f"Output Shape: {dummy_output.shape} -> (Batch, Classes)")
-
-
+    print("Test inference completed successfully")

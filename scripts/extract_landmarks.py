@@ -9,7 +9,7 @@ from mediapipe.tasks.python.vision.core import (
     vision_task_running_mode as running_mode_module,
 )
 
-
+# This function is used to extract the landmarks from the video frames and save them to a CSV file
 def process_jester_data(dataset_path, output_csv_path, limit_folders=None):
     hand_landmarker = create_hand_landmarker(
         running_mode=running_mode_module.VisionTaskRunningMode.VIDEO,
@@ -79,13 +79,15 @@ def process_jester_data(dataset_path, output_csv_path, limit_folders=None):
     print("\nNo hands detected in this batch.")
     return None
 
-
+# This is the main function that is used to extract the landmarks from the video frames and save them to a CSV file
 if __name__ == "__main__":
     DATASET_PATH = "/Users/skavoori/projects/gesture_recognition/20bn-jester-v1"
 
     TEST_CSV = "test_jester_coordinates.csv"
     FULL_CSV = "jester_hand_coordinates.csv"
 
+    # Processing the dataset in micro-batches to verify the functionality before running the full dataset. 
+    # Processing full dataset took 16 hours on my MacBook Pro with an M5 Max chip (64GB Unified Memory)
     print("Initializing Phase 1: Micro-Batch Test (5 Folders)...")
     test_df = process_jester_data(DATASET_PATH, TEST_CSV, limit_folders=5)
 

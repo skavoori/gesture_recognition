@@ -8,17 +8,19 @@ from data_loader import JesterCoordinateDataset
 from model import GestureLSTM, GestureGRU  # Ensure GRU is imported
 from paths import ROOT
 
+# This function is used to train and validate the gesture models
 def train_and_validate(epochs, learning_rate, batch_size, hidden_size, model_type):
+    # Use GPU if available, otherwise fallback to use CPU
     device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
     print(f"Booting up {model_type} training engine on: {device}")
 
-    # 1. Directory Routing Setup
+    # Directory Routing Setup to save the models and metrics to the correct location
     models_dir = ROOT / "models"
     metrics_dir = ROOT / "metrics"
     models_dir.mkdir(exist_ok=True)
     metrics_dir.mkdir(exist_ok=True)
 
-    # 2. Load Datasets
+    # Load the datasets
     train_dataset = JesterCoordinateDataset(
         coordinates_csv="data/jester_hand_coordinates.csv",
         labels_csv="annotations/jester-v1-train.csv",
@@ -35,7 +37,7 @@ def train_and_validate(epochs, learning_rate, batch_size, hidden_size, model_typ
     )
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
-    # 3. Initialize the Requested Model
+    # Initialize the model based on the model type
     if model_type.upper() == 'GRU':
         model = GestureGRU(input_size=63, hidden_size=hidden_size, num_layers=2, num_classes=27).to(device)
     else:
@@ -44,8 +46,9 @@ def train_and_validate(epochs, learning_rate, batch_size, hidden_size, model_typ
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-    # 4. History Tracking & Early Stopping
+    # History Tracking & Early Stopping to track the training and validation loss and accuracy
     history = {'train_loss': [], 'val_loss': [], 'train_acc': [], 'val_acc': []}
+    # Default best validation loss set to infinity
     best_val_loss = float('inf')
     patience = 5
     epochs_without_improvement = 0
@@ -113,12 +116,12 @@ def train_and_validate(epochs, learning_rate, batch_size, hidden_size, model_typ
                 print(f"\n[!] Early stopping triggered at epoch {epoch+1}.")
                 break 
 
-    # 5. Save History
+    # Save the history to the correct location
     history_path = metrics_dir / f"history_{model_type.lower()}_h{hidden_size}_lr{learning_rate}.json"
     with open(history_path, "w") as f:
         json.dump(history, f)
         
-    print(f"Run complete. Check /models and /metrics directories.")
+    print(f"Training and validation complete. Check /models and /metrics directories.")
     return history
 
 if __name__ == "__main__":
@@ -129,5 +132,5 @@ if __name__ == "__main__":
     parser.add_argument('--hidden_size', type=int, default=128)
     parser.add_argument('--model_type', type=str, default='LSTM', choices=['LSTM', 'GRU'])
     args = parser.parse_args()
-    
+    # Train and validate the gesture models
     train_and_validate(args.epochs, args.lr, args.batch_size, args.hidden_size, args.model_type)

@@ -13,18 +13,22 @@ from torch.utils.data import DataLoader
 
 DEVICE = torch.device('mps' if torch.backends.mps.is_available() else 'cpu')
 
+# This function is used to run the Optuna sweep for the gesture models
 def objective(trial, epochs, log):
-    # 1. Optuna Suggests Hyperparameters
+    # Suggest a categorical model type space to explore the model type space
     model_type = trial.suggest_categorical("model_type", ["LSTM", "GRU"])
+
+    # Suggest a categorical hidden size space to explore the hidden size space
     hidden_size = trial.suggest_categorical("hidden_size", [128, 256])
-    # Optuna can search a continuous learning rate space logarithmically!
+
+    # Suggest a continuous learning rate space logarithmically to avoid exploring too high or too low learning rates
     lr = trial.suggest_float("lr", 1e-4, 1e-3, log=True) 
     log(
         f"Trial {trial.number} started | model_type={model_type} | "
         f"hidden_size={hidden_size} | lr={lr:.8f}"
     )
 
-    # 2. Initialize Model
+    # Initialize the model based on the model type
     if model_type == "GRU":
         model = GestureGRU(input_size=63, hidden_size=hidden_size, num_layers=2, num_classes=27).to(DEVICE)
     else:
@@ -33,7 +37,7 @@ def objective(trial, epochs, log):
     optimizer = optim.Adam(model.parameters(), lr=lr)
     criterion = nn.CrossEntropyLoss()
     
-    # 3. Load Datasets
+    # Load the datasets
     train_dataset = JesterCoordinateDataset(
         coordinates_csv="data/jester_hand_coordinates.csv",
         labels_csv="annotations/jester-v1-train.csv",
@@ -49,10 +53,11 @@ def objective(trial, epochs, log):
     train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
     
+    # Default best validation accuracy set to 0.0
     best_val_accuracy = 0.0
 
     for epoch in range(epochs):
-        # --- TRAIN LOOP ---
+        # Train the model for the current epoch
         model.train()
         train_loss = 0.0
         total_train = 0
@@ -64,12 +69,13 @@ def objective(trial, epochs, log):
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
+            # Update the train loss
             train_loss += loss.item()
             _, predicted = torch.max(outputs.data, 1)
             total_train += labels.size(0)
             correct_train += (predicted == labels).sum().item()
 
-        # --- VALIDATION LOOP ---
+        # Validate the model for the current epoch
         model.eval()
         val_loss = 0.0
         total_val = 0
@@ -84,9 +90,13 @@ def objective(trial, epochs, log):
                 total_val += labels.size(0)
                 correct_val += (predicted == labels).sum().item()
 
+        # Calculate the average train loss
         avg_train_loss = train_loss / len(train_loader)
+        # Calculate the train accuracy  
         train_accuracy = correct_train / total_train if total_train else 0.0
+        # Calculate the average validation loss
         avg_val_loss = val_loss / len(val_loader)
+        # Calculate the validation accuracy
         val_accuracy = correct_val / total_val if total_val else 0.0
         best_val_accuracy = max(best_val_accuracy, val_accuracy)
 
@@ -95,6 +105,7 @@ def objective(trial, epochs, log):
         if trial.should_prune():
             raise optuna.TrialPruned()
 
+        # Log the training and validation metrics for the current epoch
         log(
             f"Trial {trial.number} | Epoch {epoch + 1}/{epochs} | "
             f"Train Loss: {avg_train_loss:.4f} | Train Acc: {train_accuracy:.4f} | "
@@ -104,17 +115,21 @@ def objective(trial, epochs, log):
     log(
         f"Trial {trial.number} completed | best_val_accuracy={best_val_accuracy:.4f}"
     )
+    # Return the best validation accuracy
     return best_val_accuracy
 
 if __name__ == "__main__":
+    # Parse the command line arguments
     parser = argparse.ArgumentParser(description="Run Optuna sweep for gesture models.")
     parser.add_argument("--n-trials", type=int, default=10, help="Number of Optuna trials to run.")
     parser.add_argument("--epochs", type=int, default=20, help="Training epochs per trial.")
     args = parser.parse_args()
 
+    # Create the logs directory
     logs_dir = ROOT / "logs"
     logs_dir.mkdir(exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    # Create the log file path
     log_path = logs_dir / f"optuna_sweep_{timestamp}.log"
 
     def log(message: str) -> None:
@@ -126,11 +141,13 @@ if __name__ == "__main__":
     log(f"Writing detailed training logs to: {log_path}")
     log(f"Device: {DEVICE}")
     log(f"Requested trials: {args.n_trials} | epochs per trial: {args.epochs}")
-    # Tree-structured Parzen Estimator (TPE) + Median Pruner for early stopping
+    # Create the study using the Tree-structured Parzen Estimator (TPE) + Median Pruner for early stopping
     study = optuna.create_study(
         direction="maximize", 
+        # Use the Median Pruner for early stopping
         pruner=optuna.pruners.MedianPruner()
     )
+    # Optimize the study using the objective function
     study.optimize(lambda trial: objective(trial, args.epochs, log), n_trials=args.n_trials)
 
     log("\n" + "="*50)

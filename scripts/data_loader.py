@@ -5,13 +5,15 @@ from torch.utils.data import Dataset, DataLoader
 
 from paths import resolve_path
 
+# This class is used to load the dataset into the memory and create a tensor of the correct shape
+# It is used to train the model and validate the model
 class JesterCoordinateDataset(Dataset):
     def __init__(self, coordinates_csv, labels_csv, class_list_csv, max_seq_length=30):
         coordinates_csv = resolve_path(coordinates_csv)
         labels_csv = resolve_path(labels_csv)
         class_list_csv = resolve_path(class_list_csv)
 
-        print("Loading massive coordinate CSV into Apple Silicon Unified Memory...")
+        print("Loading massive coordinate CSV into Memory...This could take a while...")
         self.df = pd.read_csv(coordinates_csv)
         
         print("Grouping frames by video sequence...")
@@ -47,6 +49,7 @@ class JesterCoordinateDataset(Dataset):
         video_frames = self.grouped_data.get_group(int(vid_id))[self.feature_cols].values
         video_frames = video_frames.astype(np.float32)
         
+        # Create a tensor of the correct shape (max_seq_length, 63)
         seq_len = len(video_frames)
         if seq_len < self.max_seq_length:
             padding = np.zeros((self.max_seq_length - seq_len, 63), dtype=np.float32)
@@ -64,6 +67,7 @@ class JesterCoordinateDataset(Dataset):
         
         return video_tensor, label_tensor
 
+# This is the main function that is used to load the dataset into the memory and create a tensor of the correct shape
 if __name__ == "__main__":
     COORD_CSV = "data/jester_hand_coordinates.csv"
     LABELS_CSV = "annotations/jester-v1-train.csv"

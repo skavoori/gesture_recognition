@@ -58,7 +58,7 @@ jupyter notebook 1_gesture_recognition_eda.ipynb
 
 - [Exploratory Data Analysis (EDA)](1_gesture_recognition_eda.ipynb)
 - [Model Evaluation and Fine Tuning](2_model_tuning.ipynb)
-- [Project Report](3_capstone_project_report.ipynb)
+- [Project Report](PROJECT_REPORT.md)
 - [Python Scripts Used for Data Extraction , Model Trainng, Model Evaluation and Live Inference](scripts)
 - [Intermediate Models Generated](models)
 - [Metrics Collected from Training Models](metrics)
