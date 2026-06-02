@@ -120,7 +120,7 @@ def run_live_inference(model_path, model_type, hidden_size):
                 sequence.clear()
 
             # 6. UI Overlay
-            cv2.rectangle(frame, (0, 0), (640, 50), (0, 0, 0), -1)
+            cv2.rectangle(frame, (0, 0), (1080, 50), (0, 0, 0), -1)
             cv2.putText(
                 frame,
                 f"Gesture: {current_gesture}",
@@ -134,7 +134,7 @@ def run_live_inference(model_path, model_type, hidden_size):
             cv2.putText(
                 frame,
                 f"Conf: {confidence:.1f}%",
-                (450, 35),
+                (800, 35),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.7,
                 (0, 255, 0),

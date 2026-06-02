@@ -1,0 +1,156 @@
+Starting Advanced HPO with Optuna...
+Writing detailed training logs to: /Users/skavoori/code/gesture_recognition/logs/optuna_sweep_20260531_202308.log
+Device: mps
+Requested trials: 10 | epochs per trial: 20
+Trial 0 started | model_type=LSTM | hidden_size=128 | lr=0.00080745
+Trial 0 | Epoch 1/20 | Train Loss: 1.7545 | Train Acc: 0.4733 | Val Loss: 1.0817 | Val Acc: 0.6752
+Trial 0 | Epoch 2/20 | Train Loss: 0.9561 | Train Acc: 0.7174 | Val Loss: 0.9085 | Val Acc: 0.7228
+Trial 0 | Epoch 3/20 | Train Loss: 0.7925 | Train Acc: 0.7635 | Val Loss: 0.7768 | Val Acc: 0.7702
+Trial 0 | Epoch 4/20 | Train Loss: 0.7115 | Train Acc: 0.7897 | Val Loss: 0.6954 | Val Acc: 0.7974
+Trial 0 | Epoch 5/20 | Train Loss: 0.6585 | Train Acc: 0.8084 | Val Loss: 0.6527 | Val Acc: 0.8119
+Trial 0 | Epoch 6/20 | Train Loss: 0.6165 | Train Acc: 0.8209 | Val Loss: 0.6394 | Val Acc: 0.8141
+Trial 0 | Epoch 7/20 | Train Loss: 0.5922 | Train Acc: 0.8290 | Val Loss: 0.6220 | Val Acc: 0.8157
+Trial 0 | Epoch 8/20 | Train Loss: 0.5678 | Train Acc: 0.8355 | Val Loss: 0.6212 | Val Acc: 0.8241
+Trial 0 | Epoch 9/20 | Train Loss: 0.5514 | Train Acc: 0.8400 | Val Loss: 0.5785 | Val Acc: 0.8285
+Trial 0 | Epoch 10/20 | Train Loss: 0.5341 | Train Acc: 0.8438 | Val Loss: 0.5952 | Val Acc: 0.8313
+Trial 0 | Epoch 11/20 | Train Loss: 0.5216 | Train Acc: 0.8476 | Val Loss: 0.5813 | Val Acc: 0.8312
+Trial 0 | Epoch 12/20 | Train Loss: 0.5115 | Train Acc: 0.8512 | Val Loss: 0.5661 | Val Acc: 0.8376
+Trial 0 | Epoch 13/20 | Train Loss: 0.5019 | Train Acc: 0.8529 | Val Loss: 0.6146 | Val Acc: 0.8211
+Trial 0 | Epoch 14/20 | Train Loss: 0.4921 | Train Acc: 0.8563 | Val Loss: 0.5701 | Val Acc: 0.8373
+Trial 0 | Epoch 15/20 | Train Loss: 0.4850 | Train Acc: 0.8575 | Val Loss: 0.5551 | Val Acc: 0.8410
+Trial 0 | Epoch 16/20 | Train Loss: 0.4784 | Train Acc: 0.8604 | Val Loss: 0.5623 | Val Acc: 0.8380
+Trial 0 | Epoch 17/20 | Train Loss: 0.4740 | Train Acc: 0.8626 | Val Loss: 0.5543 | Val Acc: 0.8391
+Trial 0 | Epoch 18/20 | Train Loss: 0.4661 | Train Acc: 0.8628 | Val Loss: 0.5544 | Val Acc: 0.8402
+Trial 0 | Epoch 19/20 | Train Loss: 0.4592 | Train Acc: 0.8647 | Val Loss: 0.5621 | Val Acc: 0.8399
+Trial 0 | Epoch 20/20 | Train Loss: 0.4558 | Train Acc: 0.8657 | Val Loss: 0.5546 | Val Acc: 0.8408
+Trial 0 completed | best_val_accuracy=0.8410
+Trial 1 started | model_type=GRU | hidden_size=256 | lr=0.00018046
+Trial 1 | Epoch 1/20 | Train Loss: 1.8551 | Train Acc: 0.4363 | Val Loss: 1.2489 | Val Acc: 0.6305
+Trial 1 | Epoch 2/20 | Train Loss: 1.0368 | Train Acc: 0.6895 | Val Loss: 0.9243 | Val Acc: 0.7209
+Trial 1 | Epoch 3/20 | Train Loss: 0.8416 | Train Acc: 0.7481 | Val Loss: 0.8635 | Val Acc: 0.7454
+Trial 1 | Epoch 4/20 | Train Loss: 0.7420 | Train Acc: 0.7757 | Val Loss: 0.7510 | Val Acc: 0.7749
+Trial 1 | Epoch 5/20 | Train Loss: 0.6843 | Train Acc: 0.7927 | Val Loss: 0.7108 | Val Acc: 0.7858
+Trial 1 | Epoch 6/20 | Train Loss: 0.6435 | Train Acc: 0.8059 | Val Loss: 0.6888 | Val Acc: 0.7991
+Trial 1 | Epoch 7/20 | Train Loss: 0.6084 | Train Acc: 0.8188 | Val Loss: 0.6275 | Val Acc: 0.8149
+Trial 1 | Epoch 8/20 | Train Loss: 0.5805 | Train Acc: 0.8285 | Val Loss: 0.6066 | Val Acc: 0.8219
+Trial 1 | Epoch 9/20 | Train Loss: 0.5612 | Train Acc: 0.8342 | Val Loss: 0.6428 | Val Acc: 0.8136
+Trial 1 | Epoch 10/20 | Train Loss: 0.5434 | Train Acc: 0.8393 | Val Loss: 0.6227 | Val Acc: 0.8190
+Trial 1 | Epoch 11/20 | Train Loss: 0.5247 | Train Acc: 0.8441 | Val Loss: 0.5764 | Val Acc: 0.8328
+Trial 1 | Epoch 12/20 | Train Loss: 0.5125 | Train Acc: 0.8485 | Val Loss: 0.5646 | Val Acc: 0.8352
+Trial 1 | Epoch 13/20 | Train Loss: 0.5005 | Train Acc: 0.8518 | Val Loss: 0.5754 | Val Acc: 0.8350
+Trial 1 | Epoch 14/20 | Train Loss: 0.4878 | Train Acc: 0.8549 | Val Loss: 0.5489 | Val Acc: 0.8402
+Trial 1 | Epoch 15/20 | Train Loss: 0.4785 | Train Acc: 0.8581 | Val Loss: 0.5457 | Val Acc: 0.8459
+Trial 1 | Epoch 16/20 | Train Loss: 0.4643 | Train Acc: 0.8626 | Val Loss: 0.5449 | Val Acc: 0.8430
+Trial 1 | Epoch 17/20 | Train Loss: 0.4565 | Train Acc: 0.8643 | Val Loss: 0.5507 | Val Acc: 0.8408
+Trial 1 | Epoch 18/20 | Train Loss: 0.4503 | Train Acc: 0.8667 | Val Loss: 0.5700 | Val Acc: 0.8363
+Trial 1 | Epoch 19/20 | Train Loss: 0.4408 | Train Acc: 0.8683 | Val Loss: 0.5362 | Val Acc: 0.8470
+Trial 1 | Epoch 20/20 | Train Loss: 0.4320 | Train Acc: 0.8705 | Val Loss: 0.5310 | Val Acc: 0.8461
+Trial 1 completed | best_val_accuracy=0.8470
+Trial 2 started | model_type=GRU | hidden_size=128 | lr=0.00039686
+Trial 2 | Epoch 1/20 | Train Loss: 1.7645 | Train Acc: 0.4584 | Val Loss: 1.1780 | Val Acc: 0.6453
+Trial 2 | Epoch 2/20 | Train Loss: 1.0045 | Train Acc: 0.7018 | Val Loss: 0.8961 | Val Acc: 0.7331
+Trial 2 | Epoch 3/20 | Train Loss: 0.8247 | Train Acc: 0.7553 | Val Loss: 0.8004 | Val Acc: 0.7650
+Trial 2 | Epoch 4/20 | Train Loss: 0.7468 | Train Acc: 0.7777 | Val Loss: 0.7064 | Val Acc: 0.7893
+Trial 2 | Epoch 5/20 | Train Loss: 0.6952 | Train Acc: 0.7932 | Val Loss: 0.6967 | Val Acc: 0.7940
+Trial 2 | Epoch 6/20 | Train Loss: 0.6505 | Train Acc: 0.8100 | Val Loss: 0.6420 | Val Acc: 0.8163
+Trial 2 | Epoch 7/20 | Train Loss: 0.6179 | Train Acc: 0.8202 | Val Loss: 0.6195 | Val Acc: 0.8208
+Trial 2 | Epoch 8/20 | Train Loss: 0.5964 | Train Acc: 0.8270 | Val Loss: 0.6314 | Val Acc: 0.8185
+Trial 2 | Epoch 9/20 | Train Loss: 0.5761 | Train Acc: 0.8321 | Val Loss: 0.5963 | Val Acc: 0.8286
+Trial 2 | Epoch 10/20 | Train Loss: 0.5580 | Train Acc: 0.8375 | Val Loss: 0.5921 | Val Acc: 0.8296
+Trial 2 | Epoch 11/20 | Train Loss: 0.5439 | Train Acc: 0.8414 | Val Loss: 0.5774 | Val Acc: 0.8352
+Trial 2 | Epoch 12/20 | Train Loss: 0.5307 | Train Acc: 0.8454 | Val Loss: 0.5777 | Val Acc: 0.8356
+Trial 2 | Epoch 13/20 | Train Loss: 0.5186 | Train Acc: 0.8486 | Val Loss: 0.5764 | Val Acc: 0.8363
+Trial 2 | Epoch 14/20 | Train Loss: 0.5106 | Train Acc: 0.8511 | Val Loss: 0.5576 | Val Acc: 0.8416
+Trial 2 | Epoch 15/20 | Train Loss: 0.4988 | Train Acc: 0.8542 | Val Loss: 0.5485 | Val Acc: 0.8419
+Trial 2 | Epoch 16/20 | Train Loss: 0.4918 | Train Acc: 0.8560 | Val Loss: 0.5369 | Val Acc: 0.8461
+Trial 2 | Epoch 17/20 | Train Loss: 0.4841 | Train Acc: 0.8583 | Val Loss: 0.5550 | Val Acc: 0.8382
+Trial 2 | Epoch 18/20 | Train Loss: 0.4747 | Train Acc: 0.8615 | Val Loss: 0.5274 | Val Acc: 0.8457
+Trial 2 | Epoch 19/20 | Train Loss: 0.4689 | Train Acc: 0.8621 | Val Loss: 0.5427 | Val Acc: 0.8460
+Trial 2 | Epoch 20/20 | Train Loss: 0.4630 | Train Acc: 0.8631 | Val Loss: 0.5387 | Val Acc: 0.8464
+Trial 2 completed | best_val_accuracy=0.8464
+Trial 3 started | model_type=LSTM | hidden_size=128 | lr=0.00019292
+Trial 3 | Epoch 1/20 | Train Loss: 2.1062 | Train Acc: 0.3703 | Val Loss: 1.3641 | Val Acc: 0.6054
+Trial 3 | Epoch 2/20 | Train Loss: 1.2276 | Train Acc: 0.6425 | Val Loss: 1.1308 | Val Acc: 0.6688
+Trial 3 | Epoch 3/20 | Train Loss: 1.0074 | Train Acc: 0.7036 | Val Loss: 0.9433 | Val Acc: 0.7193
+Trial 3 | Epoch 4/20 | Train Loss: 0.8950 | Train Acc: 0.7370 | Val Loss: 0.8898 | Val Acc: 0.7364
+Trial 3 | Epoch 5/20 | Train Loss: 0.8285 | Train Acc: 0.7541 | Val Loss: 0.8588 | Val Acc: 0.7438
+Trial 3 | Epoch 6/20 | Train Loss: 0.7817 | Train Acc: 0.7675 | Val Loss: 0.7918 | Val Acc: 0.7599
+Trial 3 | Epoch 7/20 | Train Loss: 0.7434 | Train Acc: 0.7785 | Val Loss: 0.7441 | Val Acc: 0.7791
+Trial 3 | Epoch 8/20 | Train Loss: 0.7136 | Train Acc: 0.7875 | Val Loss: 0.7451 | Val Acc: 0.7779
+Trial 3 | Epoch 9/20 | Train Loss: 0.6877 | Train Acc: 0.7967 | Val Loss: 0.7427 | Val Acc: 0.7847
+Trial 3 | Epoch 10/20 | Train Loss: 0.6663 | Train Acc: 0.8031 | Val Loss: 0.6910 | Val Acc: 0.7965
+Trial 3 | Epoch 11/20 | Train Loss: 0.6478 | Train Acc: 0.8089 | Val Loss: 0.6923 | Val Acc: 0.7965
+Trial 3 | Epoch 12/20 | Train Loss: 0.6323 | Train Acc: 0.8141 | Val Loss: 0.6947 | Val Acc: 0.7976
+Trial 3 | Epoch 13/20 | Train Loss: 0.6189 | Train Acc: 0.8177 | Val Loss: 0.6506 | Val Acc: 0.8100
+Trial 3 | Epoch 14/20 | Train Loss: 0.6023 | Train Acc: 0.8222 | Val Loss: 0.6551 | Val Acc: 0.8100
+Trial 3 | Epoch 15/20 | Train Loss: 0.5966 | Train Acc: 0.8238 | Val Loss: 0.6468 | Val Acc: 0.8106
+Trial 3 | Epoch 16/20 | Train Loss: 0.5804 | Train Acc: 0.8286 | Val Loss: 0.6269 | Val Acc: 0.8166
+Trial 3 | Epoch 17/20 | Train Loss: 0.5738 | Train Acc: 0.8307 | Val Loss: 0.6413 | Val Acc: 0.8124
+Trial 3 | Epoch 18/20 | Train Loss: 0.5632 | Train Acc: 0.8337 | Val Loss: 0.6192 | Val Acc: 0.8197
+Trial 3 | Epoch 19/20 | Train Loss: 0.5557 | Train Acc: 0.8360 | Val Loss: 0.6233 | Val Acc: 0.8228
+Trial 3 | Epoch 20/20 | Train Loss: 0.5469 | Train Acc: 0.8391 | Val Loss: 0.6063 | Val Acc: 0.8226
+Trial 3 completed | best_val_accuracy=0.8228
+Trial 4 started | model_type=LSTM | hidden_size=256 | lr=0.00055992
+Trial 4 | Epoch 1/20 | Train Loss: 1.6570 | Train Acc: 0.4940 | Val Loss: 1.0318 | Val Acc: 0.6856
+Trial 4 | Epoch 2/20 | Train Loss: 0.8830 | Train Acc: 0.7343 | Val Loss: 0.8221 | Val Acc: 0.7529
+Trial 4 | Epoch 3/20 | Train Loss: 0.7395 | Train Acc: 0.7765 | Val Loss: 0.7024 | Val Acc: 0.7879
+Trial 4 | Epoch 4/20 | Train Loss: 0.6506 | Train Acc: 0.8072 | Val Loss: 0.6515 | Val Acc: 0.8084
+Trial 4 | Epoch 5/20 | Train Loss: 0.6022 | Train Acc: 0.8217 | Val Loss: 0.6650 | Val Acc: 0.8090
+Trial 4 | Epoch 6/20 | Train Loss: 0.5657 | Train Acc: 0.8323 | Val Loss: 0.7038 | Val Acc: 0.7989
+Trial 4 | Epoch 7/20 | Train Loss: 0.5356 | Train Acc: 0.8416 | Val Loss: 0.5860 | Val Acc: 0.8293
+Trial 4 | Epoch 8/20 | Train Loss: 0.5156 | Train Acc: 0.8469 | Val Loss: 0.5743 | Val Acc: 0.8319
+Trial 4 | Epoch 9/20 | Train Loss: 0.4942 | Train Acc: 0.8535 | Val Loss: 0.5781 | Val Acc: 0.8346
+Trial 4 | Epoch 10/20 | Train Loss: 0.4805 | Train Acc: 0.8570 | Val Loss: 0.5554 | Val Acc: 0.8410
+Trial 4 | Epoch 11/20 | Train Loss: 0.4666 | Train Acc: 0.8602 | Val Loss: 0.5406 | Val Acc: 0.8461
+Trial 4 | Epoch 12/20 | Train Loss: 0.4546 | Train Acc: 0.8643 | Val Loss: 0.5520 | Val Acc: 0.8423
+Trial 4 | Epoch 13/20 | Train Loss: 0.4411 | Train Acc: 0.8682 | Val Loss: 0.5588 | Val Acc: 0.8419
+Trial 4 | Epoch 14/20 | Train Loss: 0.4323 | Train Acc: 0.8704 | Val Loss: 0.5409 | Val Acc: 0.8449
+Trial 4 | Epoch 15/20 | Train Loss: 0.4186 | Train Acc: 0.8743 | Val Loss: 0.5500 | Val Acc: 0.8444
+Trial 4 | Epoch 16/20 | Train Loss: 0.4143 | Train Acc: 0.8753 | Val Loss: 0.5463 | Val Acc: 0.8473
+Trial 4 | Epoch 17/20 | Train Loss: 0.4035 | Train Acc: 0.8788 | Val Loss: 0.5590 | Val Acc: 0.8422
+Trial 4 | Epoch 18/20 | Train Loss: 0.3931 | Train Acc: 0.8818 | Val Loss: 0.5691 | Val Acc: 0.8414
+Trial 4 | Epoch 19/20 | Train Loss: 0.3854 | Train Acc: 0.8834 | Val Loss: 0.5579 | Val Acc: 0.8449
+Trial 4 | Epoch 20/20 | Train Loss: 0.3795 | Train Acc: 0.8860 | Val Loss: 0.5788 | Val Acc: 0.8396
+Trial 4 completed | best_val_accuracy=0.8473
+Trial 5 started | model_type=LSTM | hidden_size=128 | lr=0.00081277
+Trial 5 | Epoch 1/20 | Train Loss: 1.7412 | Train Acc: 0.4766 | Val Loss: 1.0655 | Val Acc: 0.6859
+Trial 5 | Epoch 2/20 | Train Loss: 0.9341 | Train Acc: 0.7237 | Val Loss: 0.8038 | Val Acc: 0.7630
+Trial 5 | Epoch 3/20 | Train Loss: 0.7818 | Train Acc: 0.7685 | Val Loss: 0.7600 | Val Acc: 0.7739
+Trial 5 | Epoch 4/20 | Train Loss: 0.7027 | Train Acc: 0.7951 | Val Loss: 0.6887 | Val Acc: 0.8027
+Trial 5 | Epoch 5/20 | Train Loss: 0.6459 | Train Acc: 0.8133 | Val Loss: 0.6706 | Val Acc: 0.8051
+Trial 5 | Epoch 6/20 | Train Loss: 0.6158 | Train Acc: 0.8214 | Val Loss: 0.6208 | Val Acc: 0.8193
+Trial 5 | Epoch 7/20 | Train Loss: 0.5878 | Train Acc: 0.8291 | Val Loss: 0.6092 | Val Acc: 0.8216
+Trial 6 started | model_type=GRU | hidden_size=256 | lr=0.00028077
+Trial 6 | Epoch 1/20 | Train Loss: 1.6054 | Train Acc: 0.5143 | Val Loss: 1.0854 | Val Acc: 0.6835
+Trial 6 | Epoch 2/20 | Train Loss: 0.8770 | Train Acc: 0.7368 | Val Loss: 0.8734 | Val Acc: 0.7386
+Trial 6 | Epoch 3/20 | Train Loss: 0.7360 | Train Acc: 0.7785 | Val Loss: 0.7418 | Val Acc: 0.7766
+Trial 6 | Epoch 4/20 | Train Loss: 0.6632 | Train Acc: 0.8014 | Val Loss: 0.6779 | Val Acc: 0.8005
+Trial 6 | Epoch 5/20 | Train Loss: 0.6107 | Train Acc: 0.8198 | Val Loss: 0.6361 | Val Acc: 0.8160
+Trial 6 | Epoch 6/20 | Train Loss: 0.5735 | Train Acc: 0.8318 | Val Loss: 0.6278 | Val Acc: 0.8207
+Trial 6 | Epoch 7/20 | Train Loss: 0.5453 | Train Acc: 0.8398 | Val Loss: 0.5864 | Val Acc: 0.8278
+Trial 6 | Epoch 8/20 | Train Loss: 0.5268 | Train Acc: 0.8451 | Val Loss: 0.5839 | Val Acc: 0.8330
+Trial 6 | Epoch 9/20 | Train Loss: 0.5065 | Train Acc: 0.8504 | Val Loss: 0.5710 | Val Acc: 0.8330
+Trial 6 | Epoch 10/20 | Train Loss: 0.4920 | Train Acc: 0.8541 | Val Loss: 0.5467 | Val Acc: 0.8440
+Trial 6 | Epoch 11/20 | Train Loss: 0.4767 | Train Acc: 0.8594 | Val Loss: 0.5382 | Val Acc: 0.8471
+Trial 6 | Epoch 12/20 | Train Loss: 0.4667 | Train Acc: 0.8620 | Val Loss: 0.5625 | Val Acc: 0.8377
+Trial 6 | Epoch 13/20 | Train Loss: 0.4526 | Train Acc: 0.8661 | Val Loss: 0.5303 | Val Acc: 0.8439
+Trial 6 | Epoch 14/20 | Train Loss: 0.4414 | Train Acc: 0.8687 | Val Loss: 0.5458 | Val Acc: 0.8412
+Trial 6 | Epoch 15/20 | Train Loss: 0.4336 | Train Acc: 0.8715 | Val Loss: 0.5377 | Val Acc: 0.8454
+Trial 6 | Epoch 16/20 | Train Loss: 0.4247 | Train Acc: 0.8737 | Val Loss: 0.5579 | Val Acc: 0.8402
+Trial 6 | Epoch 17/20 | Train Loss: 0.4162 | Train Acc: 0.8764 | Val Loss: 0.5348 | Val Acc: 0.8476
+Trial 6 | Epoch 18/20 | Train Loss: 0.4067 | Train Acc: 0.8784 | Val Loss: 0.5408 | Val Acc: 0.8456
+Trial 6 | Epoch 19/20 | Train Loss: 0.3958 | Train Acc: 0.8815 | Val Loss: 0.5339 | Val Acc: 0.8482
+Trial 6 | Epoch 20/20 | Train Loss: 0.3902 | Train Acc: 0.8837 | Val Loss: 0.5271 | Val Acc: 0.8505
+Trial 6 completed | best_val_accuracy=0.8505
+Trial 7 started | model_type=GRU | hidden_size=128 | lr=0.00010414
+Trial 8 started | model_type=GRU | hidden_size=128 | lr=0.00026471
+Trial 9 started | model_type=LSTM | hidden_size=128 | lr=0.00013682
+
+==================================================
+🏆 OPTUNA BAYESIAN OPTIMIZATION RESULTS 🏆
+==================================================
+Best Trial Score: 0.8505
+Best Hyperparameters:
+    model_type: GRU
+    hidden_size: 256
+    lr: 0.00028076976159655274
