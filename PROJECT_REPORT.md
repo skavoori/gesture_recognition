@@ -64,7 +64,14 @@ source .venv_inference/bin/activate
 python scripts/live_inference.py --model_path gru_h256_lr0.0005.pth --model_type GRU --hidden_size 256
 ```
 
-[Gesture Recognition Demo](https://youtu.be/G1BQhM-sIps?si=AguoGtX8dFhrTwfo)
+[Gesture Recognition Interface Demo](https://youtu.be/o-hSqIJxXEE) demos the custom model. It illustrates the recognition of the following 7 gestures. 
+- Thumbs Up
+- Thumbs Down 
+- Stop Sign 
+- Zoom Out with Full Hand 
+- Zoom In with Full Hand 
+- Zoom Out with Two Fingers 
+- Zoom In with Two Fingers
 
 
 ## 8. Bonus Exploration: Advanced Deep Learning HPO
