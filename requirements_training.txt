@@ -15,10 +15,10 @@ mediapipe==0.10.35
 # Hyperparameter Tuning & Experimentation
 optuna
 
-# Jupyter & Graphing (For your EDA and Tuning Notebooks)
+# Jupyter & visualization (EDA + tuning notebooks; includes 3D trajectory plots)
 jupyter
 ipykernel
-matplotlib
+matplotlib>=3.7
 seaborn
 scikit-learn
 

@@ -32,7 +32,7 @@ To capture the spatiotemporal dynamics of the gestures, the engineering pipeline
 
 
 ## 5. Sequence Modeling & Hyperparameter Optimization (HPO)
-To ensure optimal performance at 30+ FPS during live webcam inference, the network required high accuracy with minimal computational latency. A grid search hyperparameter [swee](scripts/sweep.py) was orchestrated over the following search space in batch sizes of 32 and 64:
+To ensure optimal performance at 30+ FPS during live webcam inference, the network required high accuracy with minimal computational latency. A grid search hyperparameter sweep ([`scripts/sweep.py`](scripts/sweep.py)) was orchestrated over the following search space in batch sizes of 32 and 64:
 
 * **Architectures:** Long Short-Term Memory (LSTM) vs. Gated Recurrent Unit (GRU). 
 * **Hidden Units:** 128 vs. 256.
@@ -51,7 +51,17 @@ Programmatic analysis of the JSON sweep logs yielded the following definitive wi
 * **Peak Validation Accuracy:** 85.54%
 * **Validation Loss:** 0.5065
 
-**Architectural Justification:** The sweep proved that the GRU was the superior choice. While LSTMs utilize a complex three-gate mechanism and a distinct cell state, GRUs merge the hidden and cell states using a simplified two-gate mechanism (Update and Reset gates). Because the GRU matched the necessary classification accuracy (85.54%) while requiring significantly fewer tensor operations, it guarantees lower latency and prevents frame-buffering during real-time edge deployment.
+### LSTM vs GRU: architecture comparison
+
+| Dimension | LSTM | GRU |
+|-----------|------|-----|
+| **Gating** | Input, forget, output gates + separate cell state | Update and reset gates; single hidden state |
+| **Parameters** (2×256 layers, 63-dim input) | ~860K | ~647K (~25% fewer) |
+| **Best validation accuracy (grid sweep)** | 85.02% (`lstm_h256_lr0.0005`) | **85.54%** (`gru_h256_lr0.0005`) |
+| **Mean peak accuracy (6 configs each)** | 83.56% | **84.85%** |
+| **Edge inference** | Heavier per forward pass | **Selected** for live deployment |
+
+**Architectural justification:** The sweep showed GRU as the better tradeoff for this project. LSTMs can excel on very long dependencies, but our clips are fixed at 30 frames of skeletal coordinates—enough temporal context for a two-gate recurrent block. GRUs reached **85.54%** validation accuracy (vs **85.02%** for the best LSTM) with fewer gates and parameters, which supports lower-latency inference at 30+ FPS and reduces frame-buffering risk during real-time edge deployment.
 
 
 ## 7. Live Inference Deployment

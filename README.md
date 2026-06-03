@@ -2,14 +2,18 @@
 
 Srikanth Kavoori
 
+> **Key takeaway (for reviewers):** You can control a TV-like interface by waving at a webcam—no remote required. The project built a full pipeline from millions of video frames to a working demo: hand skeletons instead of raw pixels, a simple baseline model, then a tuned **GRU** that recognizes gestures at **85.54%** accuracy with **live inference**. That is strong enough to prove the idea on edge hardware, though slightly below the original **90%** target.
+
 #### Executive summary
-This project explores an efficient, lightweight approach to Human-Computer Interaction (HCI) to control media interfaces on edge computing devices. The goal is to develop a model capable of classifying core smart-home control gestures (e.g., swipe, palm, pinch) with over 90% accuracy while maintaining real-time, low-latency performance. By processing the massive [22.8 GB 20BN-Jester video dataset](https://www.kaggle.com/datasets/sanjanatg26/20bn-jester-v1-complete) through Google's MediaPipe framework, raw video pixel data was condensed into a 3.24 GB dataset of purely mathematical 3D skeletal coordinates. To establish a performance baseline, a Random Forest Classifier was evaluated on the flattened coordinate vectors. The inherent limitations of this non-sequential model in capturing dynamic movement strongly validate the next phase of this project: ***Designing a Recurrent Neural Network (LSTM or GRU) engineered explicitly for edge-based spatiotemporal classification.***
+This project delivers an efficient, lightweight Human-Computer Interaction (HCI) pipeline for controlling media interfaces on edge devices. The original target was **90%+ accuracy** on 27 Jester gestures with real-time, low-latency inference. By processing the [22.8 GB 20BN-Jester dataset](https://www.kaggle.com/datasets/sanjanatg26/20bn-jester-v1-complete) through Google's MediaPipe framework, raw video was reduced to a **3.24 GB** set of 3D skeletal coordinates. A **Random Forest** baseline (~65% accuracy) confirmed that flattened, non-sequential features miss dynamic motion. A hyperparameter sweep then trained **LSTM and GRU** recurrent models; the winning **GRU** reached **85.54% validation accuracy** and was deployed in a **live webcam demo** ([full report](PROJECT_REPORT.md)).
 
 #### Rationale
 Reducing user friction is the ultimate competitive advantage in the smart home and streaming hardware market. Current input methods—like physical remotes or voice commands—can disrupt conversations and frequently fail in noisy environments. By developing a lightweight model deployable on edge hardware, the business gains a silent, immediate, and intuitive interface that boosts user engagement. Furthermore, developing a low-latency spatiotemporal framework for edge devices produces novel technical insights that are highly viable for future developments in the area of Computer Vision, Augemented Reality and Smart home interactions. 
 
 #### Research Question
 Can a lightweight spatiotemporal neural network accurately recognize dynamic hand gestures in real-time to control media interfaces, maintaining the low latency required for edge computing devices?
+
+**Answer:** Yes—with **85.54%** validation accuracy, a tuned **GRU** sequence model, and **live webcam inference**, this project shows that lightweight spatiotemporal networks can recognize dynamic hand gestures in real time for HCI-style control on edge-class hardware, though accuracy remained below the original **90%** stretch goal.
 
 #### Data Sources
 * **Raw Video Data:** The 20BN-Jester Dataset V1, consisting of over 148,000 short video clips of humans performing diverse, real-world hand gestures.
@@ -22,14 +26,22 @@ Can a lightweight spatiotemporal neural network accurately recognize dynamic han
 4.  **Evaluation Metric:** **Accuracy** was chosen as the primary intuitive metric to gauge the model's overall prediction capability toward our 90% target, supplemented by **Macro F1-Score** to ensure balanced evaluation across all gesture classes.
 
 #### Results
-The dimensionality reduction strategy was highly successful, isolating the core signal (hand movement) from background video noise. The Exploratory Data Analysis confirmed that distinct gestures produce unique mathematical 3D trajectories. However, the baseline Random Forest model struggled to achieve high accuracy. Because the Random Forest treats the flattened spatial coordinates as independent variables, it fails to capture the chronological sequence of the gesture—mathematically proving that the temporal order of the frames is the most critical signal for classification. 
+| Stage | Outcome |
+|-------|---------|
+| **Feature engineering** | MediaPipe reduced raw video to 3D hand landmarks (63 features per frame), isolating movement from background noise. |
+| **Exploratory analysis** | Sequence lengths and class balance were profiled; **3D fingertip trajectories** showed visibly different paths across gesture types ([EDA notebook](1_gesture_recognition_eda.ipynb)). |
+| **Baseline (Random Forest)** | ~**65%** hold-out accuracy, **~0.64 Macro F1**—strong on static poses, weak on motion-heavy gestures because temporal order is discarded when sequences are flattened. |
+| **Deep learning (LSTM vs GRU)** | Grid search over architecture, hidden size, learning rate, and batch size. Best model: **GRU, 256 units, LR 0.0005** → **85.54%** peak validation accuracy at epoch 19 ([tuning notebook](2_gesture_recognition_model_tuning.ipynb)). |
+| **Live deployment** | Winning weights power **`live_inference.py`**—webcam → MediaPipe → GRU classification with a confidence filter; demo and setup in [PROJECT_REPORT.md](PROJECT_REPORT.md). |
+
+The **90% accuracy goal was not fully met** on the full 27-class benchmark, but the pipeline is end-to-end: extracted data, validated baseline, tuned sequence model, and shipped real-time inference suitable for smart-home / edge prototypes.
 
 #### Steps Undertaken
 
-* **Exploratory Data Analysis:** Perform Data Analysis as per the CRISP-DM framework and created a report [here](1_gesture_recognition_eda.ipynb)  
-* **Deep Learning Architecture:** Construct a PyTorch Long Short-Term Memory (LSTM) network. Similarly construct a Gated Recurrent Unit(GRU) netowrk. Train, Compare and Evaluate the models against  the baseline performance. It is expected that the LSTM's and GRU's internal hidden state is designed specifically to track chronological spatiotemporal movement patterns over time. The results are documented [here](2_gesture_recognition_model_tuning.ipynb)
-* **Hardware Accelerated Training:** Utilize Apple Silicon Metal Performance Shaders (`mps`) on the M5 Max to train the model efficiently on the 3.24 GB coordinate dataset to push beyond the 90% accuracy threshold.
-* **Real-Time Deployment:** Develop a live OpenCV webcam pipeline to feed real-time $(x, y, z)$ coordinates into the trained model for live, on-device gesture classification to simulate the edge computing media interface. The results are documented in the Project Report [here](PROJECT_REPORT.md)
+* **Exploratory Data Analysis:** CRISP-DM-style EDA, baseline Random Forest with 5-fold CV, and trajectory visualizations — [notebook](1_gesture_recognition_eda.ipynb)
+* **Deep Learning & Tuning:** PyTorch **LSTM and GRU** models trained and compared via grid search against the baseline — [notebook](2_gesture_recognition_model_tuning.ipynb)
+* **Hardware-Accelerated Training:** Apple Silicon **MPS** on M5 Max for training on the 3.24 GB coordinate dataset
+* **Real-Time Deployment:** OpenCV + MediaPipe + GRU live inference prototype — [PROJECT_REPORT.md](PROJECT_REPORT.md)
 
 #### Development environment
 
@@ -54,20 +66,22 @@ source .venv_training/bin/activate   # Windows: .venv_training\Scripts\activate
 jupyter notebook 1_gesture_recognition_eda.ipynb
 ```
 
-`scripts/setup_env.py` creates `.venv/`, installs packages from `requirements.txt` (including Jupyter), and works on macOS, Linux, and Windows. Python 3.10 or newer is required.
+For live inference, activate the inference environment instead: `source .venv_inference/bin/activate`.
+
+`scripts/setup_env.py` creates **`.venv_training`** and **`.venv_inference`**, installing from [`requirements_training.txt`](requirements_training.txt) (notebooks, training, sweep) and [`requirements_inference.txt`](requirements_inference.txt) (webcam demo). Works on macOS, Linux, and Windows. **Python 3.10 or newer** is required (3.11 recommended on Apple Silicon).
 
 #### Outline of project
 
 - [Exploratory Data Analysis (EDA)](1_gesture_recognition_eda.ipynb)
-- [Model Evaluation and Fine Tuning](2_model_tuning.ipynb)
+- [Model Evaluation and Fine Tuning](2_gesture_recognition_model_tuning.ipynb)
 - [Project Report](PROJECT_REPORT.md)
 - [Python Scripts Used for Data Extraction , Model Trainng, Model Evaluation and Live Inference](scripts)
 - [Intermediate Models Generated](models)
 - [Metrics Collected from Training Models](metrics)
 - [Logs Generated during Model Evaluation](logs)
 - [Annotations used during Training](annotations)
-- [Assets Used in Jupyter Notebook](assets)
-- [Hand Gesture Co-ordinates Data. Note: This link works only after running the Jupyter Notebook](data/jester_hand_coordinates.csv)
+- [Assets Used in [Jupyter Notebook](2_gesture_recognition_model_tuning.ipynb)](assets)
+- [Hand Gesture Co-ordinates Data. Note: This link works only after running the Jupyter Notebook ](data/jester_hand_coordinates.csv)
 - [README](README.md)
 
 
