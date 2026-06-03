@@ -32,7 +32,7 @@ To capture the spatiotemporal dynamics of the gestures, the engineering pipeline
 
 
 ## 5. Sequence Modeling & Hyperparameter Optimization (HPO)
-To ensure optimal performance at 30+ FPS during live webcam inference, the network required high accuracy with minimal computational latency. A grid search hyperparameter sweep (`sweep.py`) was orchestrated over the following search space in batch sizes of 32 and 64:
+To ensure optimal performance at 30+ FPS during live webcam inference, the network required high accuracy with minimal computational latency. A grid search hyperparameter [swee](scripts/sweep.py) was orchestrated over the following search space in batch sizes of 32 and 64:
 
 * **Architectures:** Long Short-Term Memory (LSTM) vs. Gated Recurrent Unit (GRU). 
 * **Hidden Units:** 128 vs. 256.
@@ -112,6 +112,4 @@ This project spanned a wide variety of technologies, utilized advanced hardware 
 4. **Live Deployment:** Engineering a multi-threaded Python pipeline using OpenCV and `collections.deque` rolling buffers to successfully classify hand gestures in real-time via a live webcam feed.
 
 Ultimately, this project proves the viability of using efficient, skeleton-based sequence models to power natural, contactless interfaces for smart-home and spatial computing environments.
-
-
 
